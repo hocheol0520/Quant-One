@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quant-One Immersive Scroll Background</title>
+    <style>
+        /* 기본 스타일 초기화 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: white;
+            overflow-x: hidden;
+            background-color: #051020; /* 초기 배경색 */
+        }
+
+        /* 고정된 배경 캔버스 */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 콘텐츠 레이아웃 */
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+            40% {transform: translateY(-10px) translateX(-50%);}
+            60% {transform: translateY(-5px) translateX(-50%);}
+        }
+
+        /* 더미 콘텐츠를 위한 긴 여백 */
+        .spacer {
+            height: 300vh;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 배경 캔버스 -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- 콘텐츠 영역 -->
+    <div class="content">
+        <section>
+            <h1>QUANT-ONE</h1>
+            <p>스크롤을 내려 배경의 변화를 확인하십시오.<br>신경망 그래픽과 그라데이션이 당신의 움직임에 반응합니다.</p>
+        </section>
+
+        <section>
+            <h2>데이터의 흐름</h2>
+            <p>스크롤 위치에 따라 파티클의 연결이 더 선명해지고,<br>배경색은 깊은 청색에서 신비로운 보라색으로 전환됩니다.</p>
+        </section>
+
+        <section>
+            <h2>몰입형 경험</h2>
+            <p>Canvas API와 requestAnimationFrame을 사용하여<br>부드러운 프레임과 최적화된 성능을 제공합니다.</p>
+        </section>
+
+        <div class="spacer"></div>
+
+        <section>
+            <h2>끝까지 도달했습니다</h2>
+            <p>다시 위로 올라가며 변화를 느껴보세요.</p>
+        </section>
+    </div>
+
+    <div class="scroll-indicator">Scroll Down</div>
+
+    <script>
+        /**
+         * 고급 크리에이티브 코딩: 스크롤 반응형 신경망 배경
+         */
+
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let particles = [];
+        let scrollPercent = 0;
+        const particleCount = 80;
+        const maxDistance = 150;
+
+        // 색상 설정 (RGB 값)
+        const colors = {
+            start: { r: 5, g: 16, b: 32 },   // #051020 (Deep Blue)
+            end: { r: 63, g: 30, b: 120 }    // #3F1E78 (Purple)
+        };
+
+        /**
+         * 캔버스 크기 조정
+         */
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        /**
+         * 파티클 초기화
+         */
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.baseOpacity = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                // 스크롤에 따른 미세한 패럴랙스 효과 추가
+                const parallaxY = scrollPercent * 50;
+                
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // 화면 경계 처리
+                if (this.x > width) this.x = 0;
+                if (this.x < 0) this.x = width;
+                if (this.y > height) this.y = 0;
+                if (this.y < 0) this.y = height;
+            }
+
+            draw() {
+                // 스크롤이 내려갈수록 파티클이 더 밝아짐
+                const opacity = this.baseOpacity * (0.5 + scrollPercent * 0.5);
+                ctx.fillStyle = `rgba(168, 85, 247, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        /**
+         * 스크롤 이벤트 핸들러
+         */
+        window.addEventListener('scroll', () => {
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const currentScroll = window.scrollY;
+            scrollPercent = Math.min(currentScroll / totalHeight, 1);
+            
+            // 배경색 동적 업데이트
+            updateBackgroundColor();
+        }, { passive: true });
+
+        /**
+         * 배경색 보간 (Interpolation)
+         */
+        function updateBackgroundColor() {
+            const r = Math.round(colors.start.r + (colors.end.r - colors.start.r) * scrollPercent);
+            const g = Math.round(colors.start.g + (colors.end.g - colors.start.g) * scrollPercent);
+            const b = Math.round(colors.start.b + (colors.end.b - colors.start.b) * scrollPercent);
+            
+            document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        }
+
+        /**
+         * 메인 애니메이션 루프
+         */
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // 1. 신경망 선 그리기
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < maxDistance) {
+                        // 스크롤이 내려갈수록 선이 더 선명해짐
+                        const opacity = (1 - distance / maxDistance) * 0.2 * (0.5 + scrollPercent * 0.5);
+                        ctx.strokeStyle = `rgba(168, 85, 247, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // 2. 파티클 업데이트 및 그리기
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // 초기 실행
+        window.addEventListener('resize', resize);
+        resize();
+        updateBackgroundColor();
+        animate();
+
+    </script>
+</body>
+</html>
