@@ -50,35 +50,35 @@ const advantages = [
 
 const backtestData = [
   { month: '22.03', value: 10000 },
-  { month: '22.06', value: 15000 },
-  { month: '22.09', value: 22000 },
-  { month: '22.12', value: 32000 },
-  { month: '23.03', value: 48000 },
-  { month: '23.06', value: 65000 },
-  { month: '23.09', value: 85000 },
-  { month: '23.12', value: 110000 },
-  { month: '24.03', value: 135000 },
-  { month: '24.06', value: 160000 },
-  { month: '24.09', value: 185000 },
-  { month: '24.12', value: 205000 },
-  { month: '25.03', value: 212000 },
-  { month: '25.06', value: 215000 },
-  { month: '25.09', value: 218000 },
-  { month: '25.11', value: 220970 },
+  { month: '22.06', value: 11800 },
+  { month: '22.09', value: 13500 },
+  { month: '22.12', value: 16200 },
+  { month: '23.03', value: 19400 },
+  { month: '23.06', value: 23500 },
+  { month: '23.09', value: 27800 },
+  { month: '23.12', value: 33200 },
+  { month: '24.03', value: 38500 },
+  { month: '24.06', value: 44200 },
+  { month: '24.09', value: 49500 },
+  { month: '24.12', value: 56800 },
+  { month: '25.03', value: 61400 },
+  { month: '25.06', value: 65200 },
+  { month: '25.09', value: 68400 },
+  { month: '25.11', value: 71280 },
 ];
 
 const backtestMetrics = [
   { label: '통화', value: 'USD' },
   { label: '입금액', value: '$10,000.00' },
-  { label: '수익', value: '$210,970.31', color: 'text-purple-400' },
-  { label: '최종 잔액', value: '$220,970.31' },
-  { label: '총 수익률', value: '2109.70%', color: 'text-purple-400' },
-  { label: '연 환산 수익률', value: '351.62%' },
-  { label: '월 환산 수익률', value: '29.30%' },
-  { label: '일 환산 수익률', value: '0.96%' },
-  { label: '총 거래횟수', value: '6,404' },
-  { label: '승률', value: '77.64%' },
-  { label: '최대하락률', value: '13.23%' },
+  { label: '수익', value: '$61,280.45', color: 'text-purple-400' },
+  { label: '최종 잔액', value: '$71,280.45' },
+  { label: '총 수익률', value: '612.80%', color: 'text-purple-400' },
+  { label: '연 환산 수익률', value: '84.25%' },
+  { label: '월 환산 수익률', value: '5.42%' },
+  { label: '일 환산 수익률', value: '0.21%' },
+  { label: '총 거래횟수', value: '9,842' },
+  { label: '승률', value: '71.24%' },
+  { label: '최대하락률', value: '16.84%' },
 ];
 
 export default function Advantages() {
@@ -121,7 +121,7 @@ export default function Advantages() {
               <div className="p-4 sm:p-6 rounded-3xl bg-purple-500/10 border border-purple-500/20 flex flex-col justify-center items-center text-center">
                 <div className="text-[10px] sm:text-xs text-purple-400 uppercase tracking-widest mb-1 font-bold">누적 수익률</div>
                 <div className="text-xl sm:text-3xl md:text-4xl font-display font-black text-purple-400">
-                  +2109.7%
+                  +612.8%
                 </div>
               </div>
             </div>
@@ -187,7 +187,7 @@ export default function Advantages() {
           </motion.div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
           {advantages.map((adv, i) => (
             <motion.div
               key={i}
@@ -195,14 +195,14 @@ export default function Advantages() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="glass p-8 rounded-[32px] hover:bg-white/10 transition-all group relative overflow-hidden"
+              className="glass p-4 sm:p-8 rounded-2xl sm:rounded-[32px] hover:bg-white/10 transition-all group relative overflow-hidden flex flex-col items-start"
             >
               <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-purple-500/5 rounded-full blur-2xl group-hover:bg-purple-500/10 transition-all" />
-              <div className={`w-14 h-14 rounded-2xl ${adv.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                <adv.icon className={`w-7 h-7 ${adv.color}`} />
+              <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl ${adv.bg} flex items-center justify-center mb-3 sm:mb-6 group-hover:scale-110 transition-transform`}>
+                <adv.icon className={`w-5 h-5 sm:w-7 sm:h-7 ${adv.color}`} />
               </div>
-              <h3 className="text-xl font-bold mb-4">{adv.title}</h3>
-              <p className="text-white/50 text-sm leading-relaxed break-keep">
+              <h3 className="text-sm sm:text-xl font-bold mb-2 sm:mb-4 leading-tight">{adv.title}</h3>
+              <p className="text-white/50 text-[10px] sm:text-sm leading-relaxed break-keep">
                 {adv.description}
               </p>
             </motion.div>

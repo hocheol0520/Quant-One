@@ -198,17 +198,17 @@ export default function PerformanceSection() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-3 gap-2 sm:gap-6"
         >
           {stats.map((stat, i) => (
-            <div key={i} className="glass p-8 rounded-[32px] group hover:bg-white/10 transition-all border-white/5 hover:border-purple-500/30 text-center">
-              <div className="flex justify-center mb-6">
-                <div className="p-4 rounded-2xl bg-purple-500/10 group-hover:bg-purple-500 group-hover:text-white transition-all">
-                  <stat.icon className="w-8 h-8 text-purple-400 group-hover:text-white" />
+            <div key={i} className="glass p-2 sm:p-8 rounded-2xl sm:rounded-[32px] group hover:bg-white/10 transition-all border-white/5 hover:border-purple-500/30 text-center flex flex-col items-center justify-center min-h-[120px] sm:min-h-0">
+              <div className="flex justify-center mb-2 sm:mb-6">
+                <div className="p-1.5 sm:p-4 rounded-lg sm:rounded-2xl bg-purple-500/10 group-hover:bg-purple-500 group-hover:text-white transition-all">
+                  <stat.icon className="w-4 h-4 sm:w-8 h-8 text-purple-400 group-hover:text-white" />
                 </div>
               </div>
-              <div className="text-4xl font-display font-black mb-2 group-hover:scale-110 transition-transform">{stat.value}</div>
-              <div className="text-[10px] text-white/40 uppercase tracking-[0.3em] font-bold">{stat.label}</div>
+              <div className="text-base sm:text-4xl font-display font-black mb-0.5 sm:mb-2 group-hover:scale-110 transition-transform whitespace-nowrap">{stat.value}</div>
+              <div className="text-[8px] sm:text-[10px] text-white/40 uppercase tracking-[0.05em] sm:tracking-[0.3em] font-bold leading-tight max-w-[60px] sm:max-w-none">{stat.label}</div>
             </div>
           ))}
         </motion.div>
